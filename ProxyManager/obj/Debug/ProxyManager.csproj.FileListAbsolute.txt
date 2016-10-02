@@ -1,0 +1,9 @@
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\bin\Debug\ProxyManager.exe.config
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\bin\Debug\ProxyManager.exe
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\bin\Debug\ProxyManager.pdb
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\obj\Debug\ProxyManager.csprojResolveAssemblyReference.cache
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\obj\Debug\ProxyManager.Properties.Resources.resources
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\obj\Debug\ProxyManager.csproj.GenerateResource.Cache
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\obj\Debug\ProxyManager.exe
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\obj\Debug\ProxyManager.pdb
+C:\Users\School\Documents\GitHub\ProxyManager\ProxyManager\obj\Debug\ProxyManager.Forms.MainForm.resources
