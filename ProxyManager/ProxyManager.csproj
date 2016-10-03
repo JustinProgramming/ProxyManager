@@ -55,6 +55,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\RequestHelper.cs" />
+    <Compile Include="Helpers\XmlHelper.cs" />
     <Compile Include="Models\Proxy.cs" />
     <Compile Include="Models\Setting.cs" />
     <Compile Include="Program.cs" />

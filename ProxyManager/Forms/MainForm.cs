@@ -13,11 +13,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace ProxyManager.Forms
 {
     public partial class MainForm : Form
     {
+        XmlHelper _xml;
         CancellationTokenSource _cts = new CancellationTokenSource();
 
         Setting _setting = new Setting();
@@ -33,7 +35,18 @@ namespace ProxyManager.Forms
 
         public MainForm()
         {
+            string filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\Proxy Manager\Settings.xml";
+            _xml = new XmlHelper(filePath);
+
             InitializeComponent();
+
+            var settingNodes = _xml.Read();
+            if (settingNodes.Count < 1)
+            {
+                return;
+            }
+
+            nudTimeout.Value = int.Parse(_xml.GetValue(settingNodes[0], "Timeout"));
         }
 
         #region Scraping
@@ -157,11 +170,24 @@ namespace ProxyManager.Forms
         {
             _setting = new Setting();
             nudTimeout.Value = _setting.Timeout;
+
+            SaveSettingsToFile();
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            _setting.Timeout = (int)nudTimeout.Value;
 
+            SaveSettingsToFile();
+        }
+
+        private void SaveSettingsToFile()
+        {
+            _xml.ResetFileContents();
+
+            var timeoutNode = _xml.CreateNode("Timeout", _setting.Timeout.ToString());
+
+            _xml.Save(new XmlNode[] { timeoutNode }); 
         }
 
         #endregion
