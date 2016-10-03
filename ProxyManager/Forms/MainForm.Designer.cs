@@ -30,23 +30,27 @@
         {
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpScraping = new System.Windows.Forms.TabPage();
-            this.tpChecking = new System.Windows.Forms.TabPage();
-            this.tpSettings = new System.Windows.Forms.TabPage();
+            this.gbScraped = new System.Windows.Forms.GroupBox();
             this.lbScraped = new System.Windows.Forms.ListBox();
-            this.btnStopScraping = new System.Windows.Forms.Button();
             this.btnStartScraping = new System.Windows.Forms.Button();
+            this.btnStopScraping = new System.Windows.Forms.Button();
+            this.tpChecking = new System.Windows.Forms.TabPage();
+            this.gbChecked = new System.Windows.Forms.GroupBox();
             this.lvChecked = new System.Windows.Forms.ListView();
-            this.btnStartChecking = new System.Windows.Forms.Button();
-            this.btnStopChecking = new System.Windows.Forms.Button();
             this.chProxy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chTimeout = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.lblTimeout = new System.Windows.Forms.Label();
-            this.nudTimeout = new System.Windows.Forms.NumericUpDown();
+            this.btnStartChecking = new System.Windows.Forms.Button();
+            this.btnStopChecking = new System.Windows.Forms.Button();
+            this.tpSettings = new System.Windows.Forms.TabPage();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
+            this.nudTimeout = new System.Windows.Forms.NumericUpDown();
+            this.lblTimeout = new System.Windows.Forms.Label();
             this.tcMain.SuspendLayout();
             this.tpScraping.SuspendLayout();
+            this.gbScraped.SuspendLayout();
             this.tpChecking.SuspendLayout();
+            this.gbChecked.SuspendLayout();
             this.tpSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).BeginInit();
             this.SuspendLayout();
@@ -65,9 +69,9 @@
             // 
             // tpScraping
             // 
+            this.tpScraping.Controls.Add(this.gbScraped);
             this.tpScraping.Controls.Add(this.btnStartScraping);
             this.tpScraping.Controls.Add(this.btnStopScraping);
-            this.tpScraping.Controls.Add(this.lbScraped);
             this.tpScraping.Location = new System.Drawing.Point(4, 22);
             this.tpScraping.Name = "tpScraping";
             this.tpScraping.Size = new System.Drawing.Size(476, 340);
@@ -75,17 +79,111 @@
             this.tpScraping.Text = "Scraping";
             this.tpScraping.UseVisualStyleBackColor = true;
             // 
+            // gbScraped
+            // 
+            this.gbScraped.Controls.Add(this.lbScraped);
+            this.gbScraped.Location = new System.Drawing.Point(3, 3);
+            this.gbScraped.Name = "gbScraped";
+            this.gbScraped.Size = new System.Drawing.Size(470, 303);
+            this.gbScraped.TabIndex = 3;
+            this.gbScraped.TabStop = false;
+            this.gbScraped.Text = "Scraped [0]";
+            // 
+            // lbScraped
+            // 
+            this.lbScraped.FormattingEnabled = true;
+            this.lbScraped.Location = new System.Drawing.Point(6, 20);
+            this.lbScraped.Name = "lbScraped";
+            this.lbScraped.Size = new System.Drawing.Size(458, 277);
+            this.lbScraped.TabIndex = 0;
+            // 
+            // btnStartScraping
+            // 
+            this.btnStartScraping.Location = new System.Drawing.Point(317, 312);
+            this.btnStartScraping.Name = "btnStartScraping";
+            this.btnStartScraping.Size = new System.Drawing.Size(75, 25);
+            this.btnStartScraping.TabIndex = 2;
+            this.btnStartScraping.Text = "Start";
+            this.btnStartScraping.UseVisualStyleBackColor = true;
+            this.btnStartScraping.Click += new System.EventHandler(this.btnStartScraping_Click);
+            // 
+            // btnStopScraping
+            // 
+            this.btnStopScraping.Enabled = false;
+            this.btnStopScraping.Location = new System.Drawing.Point(398, 312);
+            this.btnStopScraping.Name = "btnStopScraping";
+            this.btnStopScraping.Size = new System.Drawing.Size(75, 25);
+            this.btnStopScraping.TabIndex = 1;
+            this.btnStopScraping.Text = "Stop";
+            this.btnStopScraping.UseVisualStyleBackColor = true;
+            this.btnStopScraping.Click += new System.EventHandler(this.btnStopScraping_Click);
+            // 
             // tpChecking
             // 
+            this.tpChecking.Controls.Add(this.gbChecked);
             this.tpChecking.Controls.Add(this.btnStartChecking);
             this.tpChecking.Controls.Add(this.btnStopChecking);
-            this.tpChecking.Controls.Add(this.lvChecked);
             this.tpChecking.Location = new System.Drawing.Point(4, 22);
             this.tpChecking.Name = "tpChecking";
             this.tpChecking.Size = new System.Drawing.Size(476, 340);
             this.tpChecking.TabIndex = 1;
             this.tpChecking.Text = "Checking";
             this.tpChecking.UseVisualStyleBackColor = true;
+            // 
+            // gbChecked
+            // 
+            this.gbChecked.Controls.Add(this.lvChecked);
+            this.gbChecked.Location = new System.Drawing.Point(3, 3);
+            this.gbChecked.Name = "gbChecked";
+            this.gbChecked.Size = new System.Drawing.Size(470, 303);
+            this.gbChecked.TabIndex = 5;
+            this.gbChecked.TabStop = false;
+            this.gbChecked.Text = "Checked [0]";
+            // 
+            // lvChecked
+            // 
+            this.lvChecked.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chProxy,
+            this.chTimeout});
+            this.lvChecked.FullRowSelect = true;
+            this.lvChecked.GridLines = true;
+            this.lvChecked.Location = new System.Drawing.Point(6, 20);
+            this.lvChecked.Name = "lvChecked";
+            this.lvChecked.Size = new System.Drawing.Size(458, 277);
+            this.lvChecked.TabIndex = 0;
+            this.lvChecked.UseCompatibleStateImageBehavior = false;
+            this.lvChecked.View = System.Windows.Forms.View.Details;
+            // 
+            // chProxy
+            // 
+            this.chProxy.Text = "Proxy";
+            this.chProxy.Width = 230;
+            // 
+            // chTimeout
+            // 
+            this.chTimeout.Text = "Timout";
+            this.chTimeout.Width = 200;
+            // 
+            // btnStartChecking
+            // 
+            this.btnStartChecking.Location = new System.Drawing.Point(317, 312);
+            this.btnStartChecking.Name = "btnStartChecking";
+            this.btnStartChecking.Size = new System.Drawing.Size(75, 25);
+            this.btnStartChecking.TabIndex = 4;
+            this.btnStartChecking.Text = "Start";
+            this.btnStartChecking.UseVisualStyleBackColor = true;
+            this.btnStartChecking.Click += new System.EventHandler(this.btnStartChecking_Click);
+            // 
+            // btnStopChecking
+            // 
+            this.btnStopChecking.Enabled = false;
+            this.btnStopChecking.Location = new System.Drawing.Point(398, 312);
+            this.btnStopChecking.Name = "btnStopChecking";
+            this.btnStopChecking.Size = new System.Drawing.Size(75, 25);
+            this.btnStopChecking.TabIndex = 3;
+            this.btnStopChecking.Text = "Stop";
+            this.btnStopChecking.UseVisualStyleBackColor = true;
+            this.btnStopChecking.Click += new System.EventHandler(this.btnStopChecking_Click);
             // 
             // tpSettings
             // 
@@ -100,84 +198,25 @@
             this.tpSettings.Text = "Settings";
             this.tpSettings.UseVisualStyleBackColor = true;
             // 
-            // lbScraped
+            // btnSave
             // 
-            this.lbScraped.FormattingEnabled = true;
-            this.lbScraped.Location = new System.Drawing.Point(3, 3);
-            this.lbScraped.Name = "lbScraped";
-            this.lbScraped.Size = new System.Drawing.Size(470, 303);
-            this.lbScraped.TabIndex = 0;
+            this.btnSave.Location = new System.Drawing.Point(398, 312);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 25);
+            this.btnSave.TabIndex = 6;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // btnStopScraping
+            // btnReset
             // 
-            this.btnStopScraping.Enabled = false;
-            this.btnStopScraping.Location = new System.Drawing.Point(398, 312);
-            this.btnStopScraping.Name = "btnStopScraping";
-            this.btnStopScraping.Size = new System.Drawing.Size(75, 25);
-            this.btnStopScraping.TabIndex = 1;
-            this.btnStopScraping.Text = "Stop";
-            this.btnStopScraping.UseVisualStyleBackColor = true;
-            // 
-            // btnStartScraping
-            // 
-            this.btnStartScraping.Location = new System.Drawing.Point(317, 312);
-            this.btnStartScraping.Name = "btnStartScraping";
-            this.btnStartScraping.Size = new System.Drawing.Size(75, 25);
-            this.btnStartScraping.TabIndex = 2;
-            this.btnStartScraping.Text = "Start";
-            this.btnStartScraping.UseVisualStyleBackColor = true;
-            // 
-            // lvChecked
-            // 
-            this.lvChecked.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chProxy,
-            this.chTimeout});
-            this.lvChecked.FullRowSelect = true;
-            this.lvChecked.GridLines = true;
-            this.lvChecked.Location = new System.Drawing.Point(3, 3);
-            this.lvChecked.Name = "lvChecked";
-            this.lvChecked.Size = new System.Drawing.Size(470, 303);
-            this.lvChecked.TabIndex = 0;
-            this.lvChecked.UseCompatibleStateImageBehavior = false;
-            this.lvChecked.View = System.Windows.Forms.View.Details;
-            // 
-            // btnStartChecking
-            // 
-            this.btnStartChecking.Location = new System.Drawing.Point(317, 312);
-            this.btnStartChecking.Name = "btnStartChecking";
-            this.btnStartChecking.Size = new System.Drawing.Size(75, 25);
-            this.btnStartChecking.TabIndex = 4;
-            this.btnStartChecking.Text = "Start";
-            this.btnStartChecking.UseVisualStyleBackColor = true;
-            // 
-            // btnStopChecking
-            // 
-            this.btnStopChecking.Enabled = false;
-            this.btnStopChecking.Location = new System.Drawing.Point(398, 312);
-            this.btnStopChecking.Name = "btnStopChecking";
-            this.btnStopChecking.Size = new System.Drawing.Size(75, 25);
-            this.btnStopChecking.TabIndex = 3;
-            this.btnStopChecking.Text = "Stop";
-            this.btnStopChecking.UseVisualStyleBackColor = true;
-            // 
-            // chProxy
-            // 
-            this.chProxy.Text = "Proxy";
-            this.chProxy.Width = 235;
-            // 
-            // chTimeout
-            // 
-            this.chTimeout.Text = "Timout";
-            this.chTimeout.Width = 200;
-            // 
-            // lblTimeout
-            // 
-            this.lblTimeout.AutoSize = true;
-            this.lblTimeout.Location = new System.Drawing.Point(8, 9);
-            this.lblTimeout.Name = "lblTimeout";
-            this.lblTimeout.Size = new System.Drawing.Size(74, 13);
-            this.lblTimeout.TabIndex = 0;
-            this.lblTimeout.Text = "Timeout (ms):";
+            this.btnReset.Location = new System.Drawing.Point(3, 312);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 25);
+            this.btnReset.TabIndex = 5;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // nudTimeout
             // 
@@ -201,23 +240,14 @@
             0,
             0});
             // 
-            // btnSave
+            // lblTimeout
             // 
-            this.btnSave.Location = new System.Drawing.Point(398, 312);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 25);
-            this.btnSave.TabIndex = 6;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(3, 312);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(75, 25);
-            this.btnReset.TabIndex = 5;
-            this.btnReset.Text = "Reset";
-            this.btnReset.UseVisualStyleBackColor = true;
+            this.lblTimeout.AutoSize = true;
+            this.lblTimeout.Location = new System.Drawing.Point(8, 9);
+            this.lblTimeout.Name = "lblTimeout";
+            this.lblTimeout.Size = new System.Drawing.Size(74, 13);
+            this.lblTimeout.TabIndex = 0;
+            this.lblTimeout.Text = "Timeout (ms):";
             // 
             // MainForm
             // 
@@ -233,7 +263,9 @@
             this.Text = "Proxy Manager";
             this.tcMain.ResumeLayout(false);
             this.tpScraping.ResumeLayout(false);
+            this.gbScraped.ResumeLayout(false);
             this.tpChecking.ResumeLayout(false);
+            this.gbChecked.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tpSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).EndInit();
@@ -259,5 +291,7 @@
         private System.Windows.Forms.Label lblTimeout;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnReset;
+        private System.Windows.Forms.GroupBox gbScraped;
+        private System.Windows.Forms.GroupBox gbChecked;
     }
 }
