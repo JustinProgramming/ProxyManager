@@ -12,17 +12,10 @@ namespace ProxyManager.Controllers
 {
     internal sealed class ProxyController
     {
-        public static bool CheckValidity(Proxy proxy, CancellationTokenSource cts, Setting setting)
+        public static bool CheckValidity(string proxy, CancellationTokenSource cts, Setting setting)
         {
-            var sw = new Stopwatch();
-
-            sw.Start();
-            bool success = RequestHelper.PerformGET(cts, "https://www.google.com/", proxy.IP, setting.Timeout);
-            sw.Stop();
-
+            bool success = RequestHelper.PerformGET(cts, "https://www.google.com/", proxy, setting.Timeout);
             cts.Token.ThrowIfCancellationRequested();
-
-            proxy.Timeout = (int)Math.Round((decimal)sw.ElapsedMilliseconds, 0);
             return success;
         }
     }

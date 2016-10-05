@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpScraping = new System.Windows.Forms.TabPage();
             this.gbScraped = new System.Windows.Forms.GroupBox();
@@ -36,9 +37,7 @@
             this.btnStopScraping = new System.Windows.Forms.Button();
             this.tpChecking = new System.Windows.Forms.TabPage();
             this.gbChecked = new System.Windows.Forms.GroupBox();
-            this.lvChecked = new System.Windows.Forms.ListView();
-            this.chProxy = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.chTimeout = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lbChecked = new System.Windows.Forms.ListBox();
             this.btnStartChecking = new System.Windows.Forms.Button();
             this.btnStopChecking = new System.Windows.Forms.Button();
             this.tpSettings = new System.Windows.Forms.TabPage();
@@ -46,6 +45,9 @@
             this.btnReset = new System.Windows.Forms.Button();
             this.nudTimeout = new System.Windows.Forms.NumericUpDown();
             this.lblTimeout = new System.Windows.Forms.Label();
+            this.lblWorking = new System.Windows.Forms.Label();
+            this.cmdExport = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.exportAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tcMain.SuspendLayout();
             this.tpScraping.SuspendLayout();
             this.gbScraped.SuspendLayout();
@@ -53,6 +55,7 @@
             this.gbChecked.SuspendLayout();
             this.tpSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).BeginInit();
+            this.cmdExport.SuspendLayout();
             this.SuspendLayout();
             // 
             // tcMain
@@ -120,6 +123,7 @@
             // 
             // tpChecking
             // 
+            this.tpChecking.Controls.Add(this.lblWorking);
             this.tpChecking.Controls.Add(this.gbChecked);
             this.tpChecking.Controls.Add(this.btnStartChecking);
             this.tpChecking.Controls.Add(this.btnStopChecking);
@@ -132,37 +136,22 @@
             // 
             // gbChecked
             // 
-            this.gbChecked.Controls.Add(this.lvChecked);
+            this.gbChecked.Controls.Add(this.lbChecked);
             this.gbChecked.Location = new System.Drawing.Point(3, 3);
             this.gbChecked.Name = "gbChecked";
             this.gbChecked.Size = new System.Drawing.Size(470, 303);
             this.gbChecked.TabIndex = 5;
             this.gbChecked.TabStop = false;
-            this.gbChecked.Text = "Checked [0]";
+            this.gbChecked.Text = "Checked [0/0]";
             // 
-            // lvChecked
+            // lbChecked
             // 
-            this.lvChecked.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.chProxy,
-            this.chTimeout});
-            this.lvChecked.FullRowSelect = true;
-            this.lvChecked.GridLines = true;
-            this.lvChecked.Location = new System.Drawing.Point(6, 20);
-            this.lvChecked.Name = "lvChecked";
-            this.lvChecked.Size = new System.Drawing.Size(458, 277);
-            this.lvChecked.TabIndex = 0;
-            this.lvChecked.UseCompatibleStateImageBehavior = false;
-            this.lvChecked.View = System.Windows.Forms.View.Details;
-            // 
-            // chProxy
-            // 
-            this.chProxy.Text = "Proxy";
-            this.chProxy.Width = 230;
-            // 
-            // chTimeout
-            // 
-            this.chTimeout.Text = "Timout";
-            this.chTimeout.Width = 200;
+            this.lbChecked.ContextMenuStrip = this.cmdExport;
+            this.lbChecked.FormattingEnabled = true;
+            this.lbChecked.Location = new System.Drawing.Point(6, 20);
+            this.lbChecked.Name = "lbChecked";
+            this.lbChecked.Size = new System.Drawing.Size(458, 277);
+            this.lbChecked.TabIndex = 0;
             // 
             // btnStartChecking
             // 
@@ -249,6 +238,29 @@
             this.lblTimeout.TabIndex = 0;
             this.lblTimeout.Text = "Timeout (ms):";
             // 
+            // lblWorking
+            // 
+            this.lblWorking.AutoSize = true;
+            this.lblWorking.Location = new System.Drawing.Point(8, 312);
+            this.lblWorking.Name = "lblWorking";
+            this.lblWorking.Size = new System.Drawing.Size(64, 13);
+            this.lblWorking.TabIndex = 6;
+            this.lblWorking.Text = "Working: 0";
+            // 
+            // cmdExport
+            // 
+            this.cmdExport.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exportAllToolStripMenuItem});
+            this.cmdExport.Name = "cmdExport";
+            this.cmdExport.Size = new System.Drawing.Size(153, 48);
+            // 
+            // exportAllToolStripMenuItem
+            // 
+            this.exportAllToolStripMenuItem.Name = "exportAllToolStripMenuItem";
+            this.exportAllToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportAllToolStripMenuItem.Text = "Export All...";
+            this.exportAllToolStripMenuItem.Click += new System.EventHandler(this.exportAllToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -265,10 +277,12 @@
             this.tpScraping.ResumeLayout(false);
             this.gbScraped.ResumeLayout(false);
             this.tpChecking.ResumeLayout(false);
+            this.tpChecking.PerformLayout();
             this.gbChecked.ResumeLayout(false);
             this.tpSettings.ResumeLayout(false);
             this.tpSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudTimeout)).EndInit();
+            this.cmdExport.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -282,16 +296,17 @@
         private System.Windows.Forms.ListBox lbScraped;
         private System.Windows.Forms.Button btnStartScraping;
         private System.Windows.Forms.Button btnStopScraping;
-        private System.Windows.Forms.ListView lvChecked;
         private System.Windows.Forms.Button btnStartChecking;
         private System.Windows.Forms.Button btnStopChecking;
-        private System.Windows.Forms.ColumnHeader chProxy;
-        private System.Windows.Forms.ColumnHeader chTimeout;
         private System.Windows.Forms.NumericUpDown nudTimeout;
         private System.Windows.Forms.Label lblTimeout;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.GroupBox gbScraped;
         private System.Windows.Forms.GroupBox gbChecked;
+        private System.Windows.Forms.ListBox lbChecked;
+        private System.Windows.Forms.Label lblWorking;
+        private System.Windows.Forms.ContextMenuStrip cmdExport;
+        private System.Windows.Forms.ToolStripMenuItem exportAllToolStripMenuItem;
     }
 }

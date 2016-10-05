@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -24,11 +25,13 @@ namespace ProxyManager.Forms
 
         Setting _setting = new Setting();
 
-        public delegate void UpdateScraperCallBack(List<Proxy> scraped);
-        public delegate void UpdateCheckerCallBack(Proxy proxy);
+        public delegate void UpdateScraperCallBack(List<string> scraped);
+        public delegate void AddToListBoxCallBack(string proxy);
+        public delegate void UpdateStatisticsCallBack();
 
-        List<Proxy> _scraped = new List<Proxy>();
-        List<Proxy> _checked = new List<Proxy>();
+        List<string> _scraped = new List<string>();
+        List<string> _checked = new List<string>();
+        int _checkedCounter = 0;
 
         bool _scraperActive = false;
         bool _checkerActive = false;
@@ -46,7 +49,8 @@ namespace ProxyManager.Forms
                 return;
             }
 
-            nudTimeout.Value = int.Parse(_xml.GetValue(settingNodes[0], "Timeout"));
+            _setting.Timeout = int.Parse(_xml.GetValue(settingNodes[0], "Timeout"));
+            UpdateSettingsOnUI();
         }
 
         #region Scraping
@@ -63,13 +67,13 @@ namespace ProxyManager.Forms
             _scraperActive = true;
 
             _cts = new CancellationTokenSource();
-            _scraped = new List<Proxy>();
+            _scraped = new List<string>();
             gbScraped.Text = "Scraped [0]";
             lbScraped.Items.Clear();
 
             await Task.Factory.StartNew(() =>
             {
-                _scraped = SSLProxies.Scrape(_cts).Select(x => new Proxy(x)).ToList();
+                _scraped = SSLProxies.Scrape(_cts).ToList();
             });
 
             Invoke(new UpdateScraperCallBack(UpdateScraper), _scraped);
@@ -89,10 +93,10 @@ namespace ProxyManager.Forms
             btnStopScraping.Enabled = !btnStopScraping.Enabled;
         }
 
-        public void UpdateScraper(List<Proxy> scraped)
+        public void UpdateScraper(List<string> scraped)
         {
             gbScraped.Text = $"Scraped [{_scraped.Count}]";
-            lbScraped.Items.AddRange(_scraped.Select(x => x.IP).ToArray());
+            lbScraped.Items.AddRange(_scraped.ToArray());
         }
 
         #endregion
@@ -117,9 +121,10 @@ namespace ProxyManager.Forms
             _checkerActive = true;
 
             _cts = new CancellationTokenSource();
-            _checked = new List<Proxy>();
-            gbChecked.Text = "Checked [0]";
-            lvChecked.Items.Clear();
+            _checked = new List<string>();
+            _checkedCounter = 0;
+            lbChecked.Items.Clear();
+            UpdateStatistics();
 
             await Task.Factory.StartNew(() =>
             {
@@ -132,14 +137,15 @@ namespace ProxyManager.Forms
                         if (ProxyController.CheckValidity(proxy, _cts, _setting))
                         {
                             _checked.Add(proxy);
-                            Invoke(new UpdateCheckerCallBack(UpdateChecker), proxy);
+                            Invoke(new AddToListBoxCallBack(AddToListBox), proxy);
                         }
+
+                        _checkedCounter++;
+                        Invoke(new UpdateStatisticsCallBack(UpdateStatistics));
                     });
                 }
                 catch (OperationCanceledException) { }
             });
-
-            Invoke(new UpdateScraperCallBack(UpdateScraper), _checked);
 
             SwitchCheckerButtons();
             _checkerActive = false;
@@ -156,10 +162,15 @@ namespace ProxyManager.Forms
             btnStopChecking.Enabled = !btnStopChecking.Enabled;
         }
 
-        public void UpdateChecker(Proxy proxy)
+        public void AddToListBox(string proxy)
         {
-            gbChecked.Text = $"Checked [{_checked.Count}]";
-            lvChecked.Items.Add(proxy.ToListViewItem());
+            lbChecked.Items.Add(proxy);
+        }
+
+        public void UpdateStatistics()
+        {
+            gbChecked.Text = $"Checked [{_checkedCounter}/{_scraped.Count}]";
+            lblWorking.Text = $"Working [{_checked.Count}]";
         }
 
         #endregion
@@ -169,7 +180,7 @@ namespace ProxyManager.Forms
         private void btnReset_Click(object sender, EventArgs e)
         {
             _setting = new Setting();
-            nudTimeout.Value = _setting.Timeout;
+            UpdateSettingsOnUI();
 
             SaveSettingsToFile();
         }
@@ -188,6 +199,38 @@ namespace ProxyManager.Forms
             var timeoutNode = _xml.CreateNode("Timeout", _setting.Timeout.ToString());
 
             _xml.Save(new XmlNode[] { timeoutNode }); 
+        }
+
+        private void UpdateSettingsOnUI()
+        {
+            nudTimeout.Value = _setting.Timeout;
+        }
+
+        #endregion
+
+        #region Exporting
+
+        private void exportAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_checked.Count < 1)
+            {
+                MessageBox.Show("There are no working proxies to save!", "ERROR",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return;
+            }
+
+            string fileName = FileHelper.Save("Choose your output location");
+
+            if (string.IsNullOrEmpty(fileName))
+            {
+                return;
+            }
+
+            FileHelper.WriteToFile(fileName, _checked);
+
+            MessageBox.Show("The proxies have successfuly been saved!", "ERROR",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion
