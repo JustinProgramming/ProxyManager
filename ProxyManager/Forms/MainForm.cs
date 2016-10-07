@@ -170,7 +170,7 @@ namespace ProxyManager.Forms
         public void UpdateStatistics()
         {
             gbChecked.Text = $"Checked [{_checkedCounter}/{_scraped.Count}]";
-            lblWorking.Text = $"Working [{_checked.Count}]";
+            lblWorking.Text = $"Working: {_checked.Count}";
         }
 
         #endregion
